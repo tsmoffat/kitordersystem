@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class getConnection {
-	public Connection getConnection() throws SQLException {
+	public static Connection getConnection() throws SQLException {
 		Connection conn = null;
 		Scanner in = new Scanner(System.in);
 		System.out.println(
@@ -25,4 +25,6 @@ public class getConnection {
 		}
 		return conn;
 	}
+	
+	
 }

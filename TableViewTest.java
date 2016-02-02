@@ -16,13 +16,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 public class TableViewTest extends Application {
-	/**
-	 *
-	 * 
-	 * 
-	 * @author Narayan
-	 * 
-	 */
+	
 	// TABLE VIEW AND DATA
 	private ObservableList<ObservableList> data;
 	private TableView tableview;
@@ -45,10 +39,11 @@ public class TableViewTest extends Application {
 			Scanner in = new Scanner(System.in);
 			System.out.println(
 					"Please enter an SQL String to display, or press enter for the default string, which shows everything");
-			String input = null;
-			input = in.nextLine();
-			if (input == null) {
-				SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order;";
+			String input;
+			input = in.nextLine();//TODO - Doesn't like empty string for some reason, not sure why there's an empty string though
+			if (input.isEmpty() || input == null) {
+				input = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order;";
+				SQL = input;
 			} else {
 				SQL = input;
 			}

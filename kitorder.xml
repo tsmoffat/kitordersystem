@@ -1,0 +1,22 @@
+<?xml version="1.0" standalone = "yes"?>
+<!DOCTYPE database [
+<!ELEMENT IP (#PCDATA)>
+<!ELEMENT user_name (#PCDATA)>
+<!ELEMENT password (#PCDATA)>
+<!ELEMENT database (connection*)>
+<!ELEMENT connection (dbms, database_name, user_name, password, port_number, server_name)>
+<!ELEMENT dbms (#PCDATA)>
+<!ELEMENT database_name (#PCDATA)>
+<!ELEMENT port_number (#PCDATA)>
+<!ELEMENT server_name (#PCDATA)>
+]>
+<database>
+  <connection>
+  	<dbms>mysql</dbms>
+    <database_name>mydb</database_name>
+    <user_name>root</user_name>
+    <password></password>
+    <port_number>3306</port_number>
+    <server_name>localhost</server_name>
+  </connection>
+</database>

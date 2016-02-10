@@ -1,7 +1,7 @@
 package kitordersystem;
 
 import java.io.BufferedReader;
-
+import java.io.IOException;
 import java.io.File;
 import java.io.FileReader;
 
@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 import java.sql.Connection;
 import java.sql.Statement;
+
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 public class DBReset {
 
@@ -26,13 +30,17 @@ public class DBReset {
 		}
 
 	}
-
+/**
+ * 
+ * @throws SQLException
+ */
 	public static void resetDatabase() throws SQLException {
 		String s = new String();
 		StringBuffer sb = new StringBuffer();
 
 		try {
-			FileReader fr = new FileReader(new File("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/KitOrderSystem.sql"));
+			FileReader fr = new FileReader(
+					new File("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/KitOrderSystem.sql"));
 			// be sure to not have line starting with "--" or "/*" or any other
 			// non aplhabetical character
 
@@ -47,19 +55,24 @@ public class DBReset {
 			// then we are sure to have well formed statements
 			String[] inst = sb.toString().split(";");
 
-			Connection c = getConnection.getConnection();
+			Connection c = new getConnection().getConnection();
 			Statement st = c.createStatement();
 
 			for (int i = 0; i < inst.length; i++) {
-				// we ensure that there is no spaces before or after the request
-				// string
-				// in order to not execute empty statements
+				// This removes whitespace to ensure no empty statements
 				if (!inst[i].trim().equals("")) {
 					st.executeUpdate(inst[i]);
-					System.out.println(">>" + inst[i]);
 				}
 			}
-			
+			st.executeUpdate("use mydb");
+			String line = "";
+			BufferedReader reader = new BufferedReader(new FileReader("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope.csv"));
+			while ((line = reader.readLine()) != null) {
+				String[] item = line.trim().split(",");
+				// if you want to check either it contains some name
+				// index[0] is auto-incremented ID created when inserted into the table so we only use index[1]
+				st.executeUpdate("insert into Items (Item) values (\"" + item[1] + "\")");
+			}
 
 		} catch (Exception e) {
 			System.out.println("*** Error : " + e.toString());
@@ -70,5 +83,27 @@ public class DBReset {
 			System.out.println(sb.toString());
 		}
 
+	}
+
+	/**
+	 * 
+	 * @throws IOException
+	 * @throws SQLException
+	 * @throws SAXException
+	 * @throws ParserConfigurationException
+	 */
+
+	public void CSVReader() throws IOException, SQLException, SAXException, ParserConfigurationException {
+		BufferedReader reader = new BufferedReader(new FileReader("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope.csv"));
+		Connection c = new getConnection().getConnection();//TODO make own subroutine
+		Statement st = c.createStatement();
+		st.executeUpdate("use mydb");
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			String[] item = line.trim().split(",");
+			// if you want to check either it contains some name
+			// index 0 is first name, index 1 is last name, index 2 is ID
+			st.executeUpdate("insert into Items (Item) values (\"" + item[1] + "\")");
+		}
 	}
 }

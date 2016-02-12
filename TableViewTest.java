@@ -16,6 +16,9 @@ import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+/**
+ * The class that shows everything in the database all at once. Excuse the name, I put it in as a test to see if it would work and then it worked so well that I just never changed it.
+ */
 public class TableViewTest extends Application {
 
     // TABLE VIEW AND DATA

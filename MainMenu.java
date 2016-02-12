@@ -31,7 +31,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * This is, as the name suggests, the main menu for my programme. WHere all the magic happens.
+ */
 public class MainMenu extends Application {
+
+    public static String token;
 	public static void main(String[] args) throws SQLException, IOException {
 		launch(args);
 	}
@@ -108,9 +113,13 @@ public class MainMenu extends Application {
 		searchButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				String token = searchField.getText();
-
-			}
+				token = searchField.getText();
+                try{
+                    new DBSearch().start(new Stage());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 		});
 
 		GridPane grid = new GridPane();

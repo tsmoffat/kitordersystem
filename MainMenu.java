@@ -109,7 +109,11 @@ public class MainMenu extends Application {
         emailButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("You clicked this! Sadly, it doesn't work yet, but it will soon!");
+                try {
+                    DocWriter writer = new DocWriter();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         searchButton.setOnAction(new EventHandler<ActionEvent>() {

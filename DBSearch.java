@@ -18,7 +18,7 @@ import java.sql.ResultSet;
 /**
  * Created by tsmoffat on 10/02/2016.
  * This is a class to search the database for a specific string. Works in much the same way as the connection part in TableViewTest
- * but uses a user inputted search string as opposed to returning everything. Uses PreparedStatement to sanitise inputs. Yay.
+ * but uses a user inputted search string as opposed to returning everything. Uses PreparedStatement to sanitise inputs. Yay.ø
  */
 public class DBSearch extends Application {
 

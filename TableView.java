@@ -42,11 +42,9 @@ public class TableView{
 
 			rs = c.createStatement().executeQuery(SQL);
 
-			/**********************************
-			 * 
-			 * TABLE COLUMN ADDED DYNAMICALLY *
-			 * 
-			 **********************************/
+            /**
+             * Gets column headings and adds them to the TableView dynamically
+             */
 
 			for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 				// We are using non property style for making dynamic table
@@ -61,22 +59,21 @@ public class TableView{
 				tableview.getColumns().addAll(col);
 				
 			}
-			/********************************
-			 * 
-			 * Data added to ObservableList *
-			 * 
-			 ********************************/
+            /**
+             * Data added into the table and then set visible.
+             */
 			while (rs.next()) {
 				// Iterate Row
 				ObservableList<String> row = FXCollections.observableArrayList();
 				for (int i = 1; i <= rs.getMetaData().getColumnCount(); i++) {
+
 					// Iterate Column
 					row.add(rs.getString(i));
 				}
 				System.out.println("Row [1] added " + row);
 				data.add(row);
 			}
-			// FINALLY ADDED TO TableView
+
 			tableview.setItems(data);
 		} catch (Exception e) {
 			e.printStackTrace();

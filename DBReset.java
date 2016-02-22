@@ -1,109 +1,94 @@
 package kitordersystem;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileReader;
-
-import java.sql.SQLException;
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.Statement;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.xml.sax.SAXException;
 
-public class DBReset {
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-	private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
-
-	static {
-		try {
-			Class.forName(DRIVER_NAME).newInstance();
-			System.out.println("*** Driver loaded");
-		} catch (Exception e) {
-			System.out.println("*** Error : " + e.toString());
-			System.out.println("*** ");
-			System.out.println("*** Error : ");
-			e.printStackTrace();
-		}
-
-	}
 /**
- * 
- * @throws SQLException
+ * Not sure why this is still here, it was an experiment that I'm not sure if I got working. The CSV reader is useful though
  */
-	public static void resetDatabase() throws SQLException {
-		String s = new String();
-		StringBuffer sb = new StringBuffer();
+public class DBReset {
+    private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
+    private static Connection c;
 
-		try {
-			FileReader fr = new FileReader(
-					new File("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/KitOrderSystem.sql"));
-			// be sure to not have line starting with "--" or "/*" or any other
-			// non aplhabetical character
+    static {
+        try {
+            Class.forName(DRIVER_NAME).newInstance();
+            System.out.println("*** Driver loaded");
+        } catch (Exception e) {
+            System.out.println("*** Error : " + e.toString());
+            System.out.println("*** ");
+            System.out.println("*** Error : ");
+            e.printStackTrace();
+        }
 
-			BufferedReader br = new BufferedReader(fr);
+    }
 
-			while ((s = br.readLine()) != null) {
-				sb.append(s);
-			}
-			br.close();
+    /**
+     * @throws SQLException
+     */
+    public static void resetDatabase() throws SQLException {
+        String s;
+        StringBuffer sb = new StringBuffer();
 
-			// here is our splitter ! We use ";" as a delimiter for each request
-			// then we are sure to have well formed statements
-			String[] inst = sb.toString().split(";");
+        try {
+            connection();
+            FileReader fr = new FileReader(
+                    new File("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/KitOrderSystem.sql"));
+            // be sure to not have line starting with "--" or "/*" or any other
+            // non aplhabetical character
 
-			Connection c = new getConnection().getConnection();
-			Statement st = c.createStatement();
+            BufferedReader br = new BufferedReader(fr);
 
-			for (int i = 0; i < inst.length; i++) {
-				// This removes whitespace to ensure no empty statements
-				if (!inst[i].trim().equals("")) {
-					st.executeUpdate(inst[i]);
-				}
-			}
-			st.executeUpdate("use mydb");
-			String line = "";
-			BufferedReader reader = new BufferedReader(new FileReader("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope.csv"));
-			while ((line = reader.readLine()) != null) {
-				String[] item = line.trim().split(",");
-				// if you want to check either it contains some name
-				// index[0] is auto-incremented ID created when inserted into the table so we only use index[1]
-				st.executeUpdate("insert into Items (Item) values (\"" + item[1] + "\")");
-			}
+            while ((s = br.readLine()) != null) {
+                sb.append(s);
+            }
+            br.close();
 
-		} catch (Exception e) {
-			System.out.println("*** Error : " + e.toString());
-			System.out.println("*** ");
-			System.out.println("*** Error : ");
-			e.printStackTrace();
-			System.out.println("################################################");
-			System.out.println(sb.toString());
-		}
+            // here is our splitter ! We use ";" as a delimiter for each request
+            // then we are sure to have well formed statements
+            String[] inst = sb.toString().split(";");
 
-	}
 
-	/**
-	 * 
-	 * @throws IOException
-	 * @throws SQLException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
-	 */
+            Statement st = c.createStatement();
 
-	public void CSVReader() throws IOException, SQLException, SAXException, ParserConfigurationException {
-		BufferedReader reader = new BufferedReader(new FileReader("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope.csv"));
-		Connection c = new getConnection().getConnection();//TODO make own subroutine
-		Statement st = c.createStatement();
-		st.executeUpdate("use mydb");
-		String line = "";
-		while ((line = reader.readLine()) != null) {
-			String[] item = line.trim().split(",");
-			// if you want to check either it contains some name
-			// index 0 is first name, index 1 is last name, index 2 is ID
-			st.executeUpdate("insert into Items (Item) values (\"" + item[1] + "\")");
-		}
-	}
+            for (int i = 0; i < inst.length; i++) {
+                // This removes whitespace to ensure no empty statements
+                if (!inst[i].trim().equals("")) {
+                    st.executeUpdate(inst[i]);
+                }
+            }
+            st.executeUpdate("use mydb");
+            String line = "";
+            BufferedReader reader = new BufferedReader(new FileReader("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope.csv"));
+            while ((line = reader.readLine()) != null) {
+                String[] item = line.trim().split(",");
+                // if you want to check either it contains some name
+                // index[0] is auto-incremented ID created when inserted into the table so we only use index[1]
+                st.executeUpdate("insert into Items (Item) values (\"" + item[1] + "\")");
+            }
+
+        } catch (Exception e) {
+            System.out.println("*** Error : " + e.toString());
+            System.out.println("*** ");
+            System.out.println("*** Error : ");
+            e.printStackTrace();
+            System.out.println("################################################");
+            System.out.println(sb.toString());
+        }
+
+    }
+
+    public static void connection() throws IOException, SQLException, org.xml.sax.SAXException, javax.xml.parsers.ParserConfigurationException {
+        c = new getConnection().getConnection();
+    }
+
+
 }

@@ -1,9 +1,5 @@
 package kitordersystem;
 
-import java.sql.*;
-import java.util.Scanner;
-import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -15,6 +11,11 @@ import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * The class that shows everything in the database all at once. Excuse the name, I put it in as a test to see if it would work and then it worked so well that I just never changed it.
@@ -53,11 +54,9 @@ public class TableViewTest extends Application {
 
             rs = c.createStatement().executeQuery(SQL);
 
-            /**********************************
-             *
-             * TABLE COLUMN ADDED DYNAMICALLY *
-             *
-             **********************************/
+            /**
+             * Gets column headings and adds them to the TableView dynamically
+             */
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 

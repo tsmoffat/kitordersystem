@@ -39,10 +39,27 @@ public class DBSearch extends Application {
             ResultSet rs = c.createStatement().executeQuery(SQL);
             // SQL FOR SELECTING TABLES
             String token = MainMenu.token;
+            String ordering = MainMenu.ordering;
+            String order;
+            switch (ordering){
+                case "Name A-Z":    order = "Name ASC";
+                                    break;
+                case "Name Z-A":    order = "Name DESC";
+                                    break;
+                case "Item":        order = "Order";
+                                    break;
+                case "Order ID":    order = "ID";
+                                    break;
+                case "Squad":       order = "Squad";
+                                    break;
+                case "Customer ID:":order = "CustomerID";
+                                    break;
+                default:            order = "ID";
+            }
             PreparedStatement statement = c.prepareStatement("select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, " +
                     "i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order where o.ID like " +
                     "? or o.CustomerID like ? or c.Name like ? or c.Email_Address like ? or c.Squad like ? or o.Order like ? or o.OrderSize like " +
-                    "? or o.OrderNumber like ? or o.NameOnGarment like ? or i.Item like ?;");
+                    "? or o.OrderNumber like ? or o.NameOnGarment like ? or i.Item like ? ORDER BY "+ order +";");
 
             statement.setString(1, "%" + token + "%");
             statement.setString(2, "%" + token + "%");

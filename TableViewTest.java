@@ -43,16 +43,32 @@ public class TableViewTest extends Application {
         try {
             c = new getConnection().getConnection();
             String SQL = "USE mydb";
-            ResultSet rs = c.createStatement().executeQuery(SQL);
+            c.createStatement().executeQuery(SQL);
             // SQL FOR SELECTING TABLES
+            String ordering = MainMenu.ordering;
+            String order;
+            switch (ordering){
+                case "Name A-Z":    order = "Name ASC";
+                    break;
+                case "Name Z-A":    order = "Name DESC";
+                    break;
+                case "Item":        order = "Order";
+                    break;
+                case "Order ID":    order = "ID";
+                    break;
+                case "Squad":       order = "Squad";
+                    break;
+                case "Customer ID:":order = "CustomerID";
+                    break;
+                default:            order = "ID";
+            }
 
-
-            SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order;";
+            SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order ORDER BY " + order +";";
 
 
             // ResultSet
 
-            rs = c.createStatement().executeQuery(SQL);
+            ResultSet rs = c.createStatement().executeQuery(SQL);
 
             /**
              * Gets column headings and adds them to the TableView dynamically

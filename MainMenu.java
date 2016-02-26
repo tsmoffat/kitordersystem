@@ -7,9 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -26,6 +24,8 @@ import java.util.Optional;
 public class MainMenu extends Application {
 
     public static String token;
+    public static String ordering;
+
 
     public static void main(String[] args) throws SQLException, IOException {
         launch(args);
@@ -42,13 +42,16 @@ public class MainMenu extends Application {
         Button emailButton = new Button("Generate");
         Button searchButton = new Button("Search");
         TextField searchField = new TextField();
+        ComboBox orderComboBox = new ComboBox();
+        Label label = new Label();
         searchField.setPromptText("Search");
+        orderComboBox.getItems().addAll("Name A-Z", "Name Z-A", "Item", "Order ID", "Squad", "Customer ID");
         remakeButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 TextInputDialog dialog = new TextInputDialog();
                 dialog.setTitle("Caution");
-                dialog.setContentText("Are you sure you want to do this? Enter remake to remake the database");
+                dialog.setContentText("Are you sure you want to do this? Enter 'remake' to remake the database");
                 Optional<String> result = dialog.showAndWait();
                 if (result.isPresent()) {
                     if (result.get() == "remake") {
@@ -92,6 +95,7 @@ public class MainMenu extends Application {
         dbViewButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                ordering = orderComboBox.getValue().toString();
                 Platform.runLater(new Runnable() {
                     public void run() {
                         try {
@@ -120,6 +124,7 @@ public class MainMenu extends Application {
             @Override
             public void handle(ActionEvent event) {
                 token = searchField.getText();
+                ordering = orderComboBox.getValue().toString();
                 try {
                     new DBSearch().start(new Stage());
                 } catch (Exception e) {
@@ -142,11 +147,14 @@ public class MainMenu extends Application {
         grid.add(searchButton, 0, 1, 1, 1);
         grid.add(emailButton, 1, 1, 1, 1);
         grid.add(searchField, 0, 2, 3, 1);
+        grid.add(new Label("Order by: "), 0,3,1,1);
+        grid.add(orderComboBox, 1,3,2,1);
         GridPane.setHalignment(remakeButton, HPos.CENTER);
         GridPane.setHalignment(emailButton, HPos.CENTER);
         GridPane.setHalignment(dbViewButton, HPos.CENTER);
         GridPane.setHalignment(searchButton, HPos.CENTER);
         GridPane.setHalignment(searchField, HPos.CENTER);
+        GridPane.setHalignment(orderComboBox, HPos.CENTER);
 
 
         primaryStage.show();

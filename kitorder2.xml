@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database>
+  <connection>
+  	<dbms>mysql</dbms>
+    <database_name>mydb</database_name>
+    <user_name>root</user_name>
+    <password>root</password>
+    <port_number>3306</port_number>
+    <server_name>localhost</server_name>
+  </connection>
+</database>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<body>
+  Please enter in your items one at a time
+  <form action="dborderupdate.php" method="post" id="orderform">
+    Item:<br />
+    <select>
+      <option value="Polo Shirt">Polo Shirt</option>
+      <option value="Poolside Shirt">
+        Poolside Shirt
+      </option>
+      <option value="Hoodie">
+        Hoodie
+      </option>
+      <option value="Zippy Hoodie">
+        Zippy Hoodie
+      </option>
+      <option vaue="Hat">
+        Hat
+      </option>
+      <option vale="Shorts">
+        Shorts
+      </option>
+      <option value="Backpack">
+        Backpack
+      </option>
+      <option value="Holdall">
+        Holdall
+      </option>
+    </select><br />
+    Quantity:<br />
+    <input type="number" name="quantity" min="1" max = "5"/><br />
+    Size:<br/>
+    <select>
+      <option value="9-11">
+        Size 9-11
+      </option>
+      <option value="12-13">
+        Size 12-13
+      </option>
+      <option value="S">
+        Small
+      </option>
+      <option value="M">
+        Medium
+      </option>
+      <option value="L">
+        Large
+      </option>
+      <option value="Bag">
+        Bag (Only if your order is a bag)
+      </option>
+    </select><br />
+    Please enter the name/letters to be printed on your item<br />
+    <input type="text" name="NameOnBack" />
+  </form>
+</body>
+</html>

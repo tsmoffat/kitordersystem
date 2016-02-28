@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form action="dbcustomerupdate.php" method="post" id="customerform">
+  Name:<br>
+  <input type="text" name="name"><br>
+  Email:<br />
+  <input type="email" name = "email" /><br />
+  Squad:<br />
+  <select name="squadlist" form="customerform">
+    <option value="Dev">Dev</option>
+    <option value="Jag">Jag</option>
+    <option value="Top">Top</option>
+  </select><br />
+  Choose payment method
+  <select name="payMethod">
+    <option value="BACS">
+      BACS
+    </option>
+    <option value="Cheque">
+      Cheque
+    </option>
+    <option value="Cash">
+      Cash
+    </option>
+  </select>
+</form>
+
+</body>
+</html>

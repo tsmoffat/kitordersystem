@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <meta char-set="utf-8" />
+  <title>Customer Input</title>
+</head>
 <body>
 
-<form action="dbcustomerupdate.php" method="post" id="customerform">
+<form id="customerform">
   Name:<br>
   <input type="text" name="name"><br>
   Email:<br />
   <input type="email" name = "email" /><br />
   Squad:<br />
-  <select name="squadlist" form="customerform">
+  <select name="squad">
     <option value="Dev">Dev</option>
     <option value="Jag">Jag</option>
     <option value="Top">Top</option>
   </select><br />
   Choose payment method
-  <select name="payMethod">
+  <select name="paymethod">
     <option value="BACS">
       BACS
     </option>
@@ -24,7 +28,9 @@
     <option value="Cash">
       Cash
     </option>
-  </select>
+  </select><br />
+  <input type="submit" value="Submit" /><br />
+
 </form>
 
 </body>

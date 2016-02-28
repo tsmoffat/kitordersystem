@@ -19,6 +19,10 @@ if (file_exists('kitorder2.xml')) {
     echo "Connected successfully";
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $name = test_input($_POST["name"]);
+        $email = test_input($_POST["email"]);
+        $squad = test_input($_POST["squad"]);
+        $paymethod = test_input($_POST["paymethod"]);
+        echo $name . " " .$email." ".$squad." ".$paymethod;
     }
 
 } else {

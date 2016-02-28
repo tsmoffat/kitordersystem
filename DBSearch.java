@@ -54,12 +54,14 @@ public class DBSearch extends Application {
                                     break;
                 case "Customer ID:":order = "CustomerID";
                                     break;
+                case "Payment Method":  order = "PaymentMethod";
+                    break;
                 default:            order = "ID";
             }
-            PreparedStatement statement = c.prepareStatement("select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, " +
-                    "i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order where o.ID like " +
+            PreparedStatement statement = c.prepareStatement("select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, o.PaidFor, " +
+                    "o.PaymentMethod, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order where o.ID like " +
                     "? or o.CustomerID like ? or c.Name like ? or c.Email_Address like ? or c.Squad like ? or o.Order like ? or o.OrderSize like " +
-                    "? or o.OrderNumber like ? or o.NameOnGarment like ? or i.Item like ? ORDER BY "+ order +";");
+                    "? or o.OrderNumber like ? or o.NameOnGarment like ? or o.PaymentMethod like ? or i.Item like ? ORDER BY "+ order +";");
 
             statement.setString(1, "%" + token + "%");
             statement.setString(2, "%" + token + "%");
@@ -71,6 +73,7 @@ public class DBSearch extends Application {
             statement.setString(8, "%" + token + "%");
             statement.setString(9, "%" + token + "%");
             statement.setString(10, "%" + token + "%");
+            statement.setString(11, "%" + token + "%");
             System.out.println("Executing: " + statement);
             rs = statement.executeQuery();
 

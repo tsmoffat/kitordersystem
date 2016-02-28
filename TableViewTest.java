@@ -52,7 +52,7 @@ public class TableViewTest extends Application {
                     break;
                 case "Name Z-A":    order = "Name DESC";
                     break;
-                case "Item":        order = "Order";
+                case "Item":        order = "Orders";
                     break;
                 case "Order ID":    order = "ID";
                     break;
@@ -60,10 +60,12 @@ public class TableViewTest extends Application {
                     break;
                 case "Customer ID:":order = "CustomerID";
                     break;
+                case "Payment Method":  order = "PaymentMethod";
+                    break;
                 default:            order = "ID";
             }
 
-            SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order ORDER BY " + order +";";
+            SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad,  o.Orders, o.OrderSize, o.OrderNumber, o.NameOnGarment, o.PaidFor, o.PaymentMethod, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Orders ORDER BY " + order +";";
 
 
             // ResultSet

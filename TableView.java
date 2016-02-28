@@ -5,20 +5,19 @@ package kitordersystem;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import java.sql.*;
-import java.util.Scanner;
-import java.io.IOException;
-import javafx.application.Application;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellDataFeatures;
-import javafx.stage.Stage;
 import javafx.util.Callback;
-import kitordersystem.getConnection;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *

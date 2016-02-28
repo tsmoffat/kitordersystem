@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Customer` (
   `Email_Address` VARCHAR(45) NOT NULL,
   `Squad` VARCHAR(45) NOT NULL,
   `Name_On_Back` VARCHAR(45) NOT NULL,
+  `Payment_Method` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `ID_UNIQUE` (`ID` ASC))
 ENGINE = InnoDB;

@@ -2,7 +2,7 @@
 <html>
 <body>
   Please enter in your items one at a time
-  <form action="dborderupdate.php" method="post" id="orderform">
+  <form method="post" id="orderform">
     Item:<br />
     <select>
       <option value="Polo Shirt">Polo Shirt</option>
@@ -52,7 +52,35 @@
       </option>
     </select><br />
     Please enter the name/letters to be printed on your item<br />
-    <input type="text" name="NameOnBack" />
+    <input type="text" name="NameOnBack" /><br />
+    Have you paid for this item?<br />
+    <input type="radio" name="haspaid" value="1" checked />Yes<br />
+    <input type="radio" name="haspaid" value="0" />No<br />
+    <input type="submit" value="Submit"/><br/>
   </form>
+  <script type="text/javascript">
+    function passtophp(e) {
+      e.preventDefault()
+
+      var str = $(this).serialize();
+      $.ajax('dbcustomerupdate.php', str, function (result) {
+        alert(result)
+      })
+
+      return false;
+    }
+
+    $('#orderform').submit(function (e) {
+      e.preventDefault()
+
+      var str = $(this).serialize();
+
+      $.post('dbcustomerupdate.php', str, function (result) {
+        alert(result)
+      })
+
+      return false;
+    })
+  </script>
 </body>
 </html>

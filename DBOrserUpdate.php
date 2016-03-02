@@ -1,3 +1,4 @@
+
 <?php
 // The file test.xml contains an XML document with a root element
 // and at least an element /[root]/title.
@@ -16,25 +17,14 @@ if (file_exists('kitorder2.xml')) {
         die("Connection failed: " . $conn->connect_error);
     }
     echo "Connected successfully";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-        $name = test_input($_POST['name']);
-        $email = test_input($_POST['email']);
-        $squad = test_input($_POST['squad']);
-
-        $paymethod = test_input($_POST['paymethod']);
+        $name = test_input($_POST["name"]);
+        $email = test_input($_POST["email"]);
+        $squad = test_input($_POST["squad"]);
+        $paymethod = $_SESSION['paymethod'];
         echo $name . " " .$email." ".$squad." ".$paymethod;
-        $_SESSION["paymethod"]=$paymethod;
-        $stmt = $conn->prepare("INSERT INTO Customers (Name, Email_Address, Squad) VALUES (?, ?, ?);");
-        $stmt->bind_param("sss", $name, $email, $squad);
-        $stmt->execute();
-
-        $sql = $conn->prepare("SELECT MAX(ID) FROM Customers WHERE Name = ?;");
-        $sql->bind_param("s", $name);
-        $sql->execute();
-        $result = $sql->get_result()->fetch_row()[0];
-
-
-
+    }
 
 } else {
     exit('Failed to open kitorder2.xml.');
@@ -46,3 +36,4 @@ function test_input($data){
     return $data;
 }
 ?>
+ s

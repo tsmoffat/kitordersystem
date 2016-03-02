@@ -1,37 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta char-set="utf-8" />
-  <title>Customer Input</title>
-</head>
-<body>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <meta char-set="utf-8"/>
+    <title>Customer Input</title>
+  </head>
+  <body>
 
-<form id="customerform">
-  Name:<br>
-  <input type="text" name="name"><br>
-  Email:<br />
-  <input type="email" name = "email" /><br />
-  Squad:<br />
-  <select name="squad">
-    <option value="Dev">Dev</option>
-    <option value="Jag">Jag</option>
-    <option value="Top">Top</option>
-  </select><br />
-  Choose payment method
-  <select name="paymethod">
-    <option value="BACS">
-      BACS
-    </option>
-    <option value="Cheque">
-      Cheque
-    </option>
-    <option value="Cash">
-      Cash
-    </option>
-  </select><br />
-  <input type="submit" value="Submit" /><br />
+    <form id="customerform" method="post">
+      Name:<br>
+      <input type="text" name="name"><br>
+      Email:<br/>
+      <input type="email" name="email"/><br/>
+      Squad:<br/>
+      <select name="squad">
+        <option value="Dev">Dev</option>
+        <option value="Jag">Jag</option>
+        <option value="Top">Top</option>
+      </select><br/>
+      Choose payment method
+      <select name="paymethod">
+        <option value="BACS">
+          BACS
+        </option>
+        <option value="Cheque">
+          Cheque
+        </option>
+        <option value="Cash">
+          Cash
+        </option>
+      </select><br/>
+      <input type="submit" value="Submit"/><br/>
 
-</form>
+    </form>
+    <script type="text/javascript">
+      function passtophp(e) {
+        e.preventDefault()
 
-</body>
+        var str = $(this).serialize();
+        $.ajax('dbcustomerupdate.php', str, function (result) {
+          alert(result)
+        })
+
+        return false;
+      }
+
+      $('#customerform').submit(function (e) {
+        e.preventDefault()
+
+        var str = $(this).serialize();
+        
+        $.post('dbcustomerupdate.php', str, function (result) {
+          alert(result)
+        })
+
+        return false;
+      })
+    </script>
+  </body>
 </html>

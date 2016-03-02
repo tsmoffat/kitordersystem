@@ -1,5 +1,5 @@
 var request;
-$(s).submit(function(event){
+$("#dborderupdate").submit(function(event){
   if (request) {
     request.abort();
   }
@@ -8,9 +8,9 @@ $(s).submit(function(event){
   var serializedData = $form.serialize();
   $inputs.prop("disabled", true);
   request = $.ajax({
-      url: "/dbcustomerupdate.php",
+      url: "/DBOrserUpdate.php",
       type:"post",
-      data: serializedData
+      data: serialaizedData
   });
   request.done(function (response, textStatus, jqXHR){
     console.log("It worked!");

@@ -1,6 +1,4 @@
 <?php
-// The file test.xml contains an XML document with a root element
-// and at least an element /[root]/title.
 session_start();
 if (file_exists('kitorder2.xml')) {
     $xml = simplexml_load_file('kitorder2.xml');
@@ -15,14 +13,14 @@ if (file_exists('kitorder2.xml')) {
     if ($conn->connect_error){
         die("Connection failed: " . $conn->connect_error);
     }
-    echo "Connected successfully";
+
 
         $name = test_input($_POST['name']);
         $email = test_input($_POST['email']);
         $squad = test_input($_POST['squad']);
 
         $paymethod = test_input($_POST['paymethod']);
-        echo $name . " " .$email." ".$squad." ".$paymethod;
+
         $_SESSION["paymethod"]=$paymethod;
         $stmt = $conn->prepare("INSERT INTO Customers (Name, Email_Address, Squad) VALUES (?, ?, ?);");
         $stmt->bind_param("sss", $name, $email, $squad);
@@ -32,10 +30,10 @@ if (file_exists('kitorder2.xml')) {
         $sql->bind_param("s", $name);
         $sql->execute();
         $result = $sql->get_result()->fetch_row()[0];
+        $_SESSION["ID"];
 
-
-
-
+        echo '<script type="text/javascript">
+            window.location = "DBOrderUpdate.php"</script>';
 } else {
     exit('Failed to open kitorder2.xml.');
 }

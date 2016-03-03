@@ -2,6 +2,8 @@
 // The file test.xml contains an XML document with a root element
 // and at least an element /[root]/title.
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 if (file_exists('kitorder2.xml')) {
     $xml = simplexml_load_file('kitorder2.xml');
     $dbms = $xml->connection->dbms;
@@ -19,18 +21,25 @@ if (file_exists('kitorder2.xml')) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $item = $_POST['item'];
-        $quantity = $_POST['number'];
+        $quantityraw = $_POST['quantity'];
+        $quantity = $quantityraw;
         $size = $_POST['size'];
         $nameonback = $_POST['NameOnBack'];
-        $haspaid = $_POST['haspaid'];
+        $haspaidraw = $_POST['haspaid'];
+        $haspaid = $haspaidraw;
         $paymethod = $_SESSION['paymethod'];
         $stmt = $conn->prepare("SELECT idItems from Items where Item = ?;");
         $stmt->bind_param("s", $item);
         $stmt->execute();
-        $id=$_SESSION['ID'];
-
-        $itemid = $stmt->getResult()->fetch_row[0];
+        $idraw=$_SESSION['ID'];
+        $id = $idraw;
+        $itemidraw = $stmt->get_result()->fetch_row()[0];
+        $itemid = $itemidraw;
         var_dump($item, $quantity, $size, $nameonback, $haspaid, $paymethod, $itemid, $id);
+        $stmt = $conn->prepare("INSERT INTO Orders (`Orders`, `OrderSize`, `OrderNumber`, `CustomerID`, `NameOnGarment`, `PaidFor`, `PaymentMethod`) values (?,?,?,?,?,?,?);");
+        $stmt->bind_param('isiisis', $itemid, $size, $quantity, $id, $nameonback, $haspaid, $paymethod);
+        $stmt->execute();
+
     }
 
 } else {
@@ -43,94 +52,3 @@ function test_input($data){
     return $data;
 }
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-  <meta char-set="utf-8" />
-  <title>Order Input</title>
-</head>
-<body>
-  Please enter in your items one at a time
-  <form method="post" id="orderform">
-    Item:<br />
-    <select name="item">
-      <option value="Polo Shirt">Polo Shirt</option>
-      <option value="Poolside Shirt">
-        Poolside Shirt
-      </option>
-      <option value="Hoodie">
-        Hoodie
-      </option>
-      <option value="Zippy Hoodie">
-        Zippy Hoodie
-      </option>
-      <option vaue="Hat">
-        Hat
-      </option>
-      <option vale="Shorts">
-        Shorts
-      </option>
-      <option value="Backpack">
-        Backpack
-      </option>
-      <option value="Holdall">
-        Holdall
-      </option>
-    </select><br />
-    Quantity:<br />
-    <input type="number" name="quantity" min="1" max = "5"/><br />
-    Size:<br/>
-    <select name="size">
-      <option value="9-11"><!--Inside job-->
-        Size 9-11
-      </option>
-      <option value="12-13">
-        Size 12-13
-      </option>
-      <option value="S">
-        Small
-      </option>
-      <option value="M">
-        Medium
-      </option>
-      <option value="L">
-        Large
-      </option>
-      <option value="Bag">
-        Bag (Only if your order is a bag)
-      </option>
-    </select><br />
-    Please enter the name/letters to be printed on your item<br />
-    <input type="text" name="NameOnBack" /><br />
-    Have you paid for this item?<br />
-    <input type="radio" name="haspaid" value="1" checked />Yes<br />
-    <input type="radio" name="haspaid" value="0" />No<br />
-    <input type="submit" value="Submit"/><br/>
-  </form>
-  <script type="text/javascript">
-    function passtophp(e) {
-      e.preventDefault()
-
-      var str = $(this).serialize();
-      $.ajax('dborderupdate.php', str, function (result) {
-        alert(result)
-      })
-
-      return false;
-    }
-
-    $('#orderform').submit(function (e) {
-      e.preventDefault()
-
-      var str = $(this).serialize();
-
-      $.post('dborderupdate.php', str, function (result) {
-        alert(result)
-      })
-
-      return false;
-    })
-  </script>
-</body>
-</html>

@@ -30,10 +30,9 @@ if (file_exists('kitorder2.xml')) {
         $sql->bind_param("s", $name);
         $sql->execute();
         $result = $sql->get_result()->fetch_row()[0];
-        $_SESSION["ID"];
+        $_SESSION["ID"] = $result;
 
-        echo '<script type="text/javascript">
-            window.location = "DBOrderUpdate.php"</script>';
+
 } else {
     exit('Failed to open kitorder2.xml.');
 }

@@ -7,7 +7,7 @@
   </head>
   <body>
 
-    <form id="customerform" method="post">
+    <form id="customerform" method="post" >
       Name:<br>
       <input type="text" name="name"><br>
       Email:<br/>
@@ -49,11 +49,11 @@
         e.preventDefault()
 
         var str = $(this).serialize();
-        
+
         $.post('dbcustomerupdate.php', str, function (result) {
           alert(result)
         })
-
+        window.location="./WebInputOrder.html"
         return false;
       })
     </script>

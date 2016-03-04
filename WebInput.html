@@ -2,11 +2,12 @@
 <html>
   <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styling.css" />
     <meta char-set="utf-8"/>
     <title>Customer Input</title>
   </head>
   <body>
-
+<div>
     <form id="customerform" method="post" >
       Name:<br>
       <input type="text" name="name"><br>
@@ -18,7 +19,7 @@
         <option value="Jag">Jag</option>
         <option value="Top">Top</option>
       </select><br/>
-      Choose payment method
+      Choose payment method <br />
       <select name="paymethod">
         <option value="BACS">
           BACS
@@ -33,6 +34,7 @@
       <input type="submit" value="Submit"/><br/>
 
     </form>
+  </div>
     <script type="text/javascript">
       function passtophp(e) {
         e.preventDefault()

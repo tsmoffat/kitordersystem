@@ -17,8 +17,10 @@ import java.sql.ResultSet;
 
 /**
  * Created by tsmoffat on 10/02/2016.
- * This is a class to search the database for a specific string. Works in much the same way as the connection part in TableViewTest
- * but uses a user inputted search string as opposed to returning everything. Uses PreparedStatement to sanitise inputs. Yay.ø
+ * This is a class to search the database for a specific string. Works in
+ * much the same way as the connection part in TableViewTest but uses a user
+ * inputted search string as opposed to returning everything. Uses
+ * PreparedStatement to sanitise inputs. Yay.ø
  */
 public class DBSearch extends Application {
 
@@ -36,7 +38,7 @@ public class DBSearch extends Application {
         try {
             c = new getConnection().getConnection();
             String SQL = "USE mydb";
-            ResultSet rs = c.createStatement().executeQuery(SQL);
+            c.createStatement().executeQuery(SQL);
             // SQL FOR SELECTING TABLES
             String token = MainMenu.token;
             String ordering = MainMenu.ordering;
@@ -58,10 +60,17 @@ public class DBSearch extends Application {
                     break;
                 default:            order = "ID";
             }
-            PreparedStatement statement = c.prepareStatement("select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad, o.Order, o.OrderSize, o.OrderNumber, o.NameOnGarment, o.PaidFor, " +
-                    "o.PaymentMethod, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Order where o.ID like " +
-                    "? or o.CustomerID like ? or c.Name like ? or c.Email_Address like ? or c.Squad like ? or o.Order like ? or o.OrderSize like " +
-                    "? or o.OrderNumber like ? or o.NameOnGarment like ? or o.PaymentMethod like ? or i.Item like ? ORDER BY "+ order +";");
+            PreparedStatement statement = c.prepareStatement("select o.ID,  o" +
+                    ".CustomerID, c.Name, c.Email_Address, c.Squad, o.Orders," +
+                    " o.OrderSize, o.OrderNumber, o.NameOnGarment, o.PaidFor, " +
+                    "o.PaymentMethod, i.Item from Orders o INNER JOIN " +
+                    "Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON" +
+                    " i.idItems=o.Order where o.ID like " +
+                    "? or o.CustomerID like ? or c.Name like ? or c" +
+                    ".Email_Address like ? or c.Squad like ? or o.Orders like" +
+                    " ? or o.OrderSize like ? or o.OrderNumber like ? or  o" +
+                    ".NameOnGarment like ? or o.PaymentMethod like ? or i" +
+                    ".Item  like ? ORDER BY "+ order +";");
 
             statement.setString(1, "%" + token + "%");
             statement.setString(2, "%" + token + "%");
@@ -75,7 +84,7 @@ public class DBSearch extends Application {
             statement.setString(10, "%" + token + "%");
             statement.setString(11, "%" + token + "%");
             System.out.println("Executing: " + statement);
-            rs = statement.executeQuery();
+            ResultSet rs = statement.executeQuery();
 
             /**********************************
              *
@@ -89,11 +98,16 @@ public class DBSearch extends Application {
 
                 final int j = i;
 
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                TableColumn col = new TableColumn(rs.getMetaData()
+                        .getColumnName(i + 1));
                 col.setCellValueFactory(
-                        new Callback<TableColumn.CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                            public ObservableValue<String> call(TableColumn.CellDataFeatures<ObservableList, String> param) {
-                                return new SimpleStringProperty(param.getValue().get(j).toString());
+                        new Callback<TableColumn.CellDataFeatures
+                                <ObservableList, String>, ObservableValue
+                                <String>>() {
+                            public ObservableValue<String> call(TableColumn.
+                                                                        CellDataFeatures<ObservableList, String> param) {
+                                return new SimpleStringProperty(param
+                                        .getValue().get(j).toString());
                             }
                         });
                 tableview.getColumns().addAll(col);

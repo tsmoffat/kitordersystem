@@ -11,7 +11,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
- * Created by tsmoffat on 22/02/2016.
+ * This is called when the database is reset, from the main menu, its only
+ * function is to repopulate the items database, which it does from a CSV
+ * file so that the contents of the table can be edited if the items ever
+ * change without having to recompile the whole program.
  */
 public class CSVReader {
     /**
@@ -21,8 +24,11 @@ public class CSVReader {
      * @throws ParserConfigurationException
      */
 
-    public CSVReader() throws IOException, SQLException, SAXException, ParserConfigurationException {
-        BufferedReader reader = new BufferedReader(new FileReader("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope.csv"));
+    public CSVReader() throws IOException, SQLException, SAXException,
+            ParserConfigurationException {
+        BufferedReader reader = new BufferedReader(new FileReader("/Users/" +
+                "tsmoffat/kitordersystem/kitordersystem/kitordersystem/Hope" +
+                ".csv"));
         Connection c = new getConnection().getConnection();
         Statement st = c.createStatement();
         st.executeUpdate("use mydb");
@@ -31,7 +37,8 @@ public class CSVReader {
             String[] item = line.trim().split(",");
             // if you want to check either it contains some name
             // index 0 is first name, index 1 is last name, index 2 is ID
-            st.executeUpdate("insert into Items (Item) values (\"" + item[1] + "\")");
+            st.executeUpdate("insert into Items (Item) values (\"" + item[1]
+                    + "\")");
 
         }
 

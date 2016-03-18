@@ -2,15 +2,17 @@ package kitordersystem;
 
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
+
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellDataFeatures;
+
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,13 +20,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * The class that shows everything in the database all at once. Excuse the name, I put it in as a test to see if it would work and then it worked so well that I just never changed it.
+ * The class that shows everything in the database all at once. Excuse the name,
+ * I put it in as a test to see if it would work and then it worked so well that
+ * I just never changed it. This takes a global variable from the main menu for
+ * the ordering.
  */
 public class TableViewTest extends Application {
 
-    // TABLE VIEW AND DATA
-    private ObservableList<ObservableList> data;
-    private TableView tableview;
+    private TableView tableview = new TableView();
 
     // MAIN EXECUTOR
     public static void main(String[] args) {
@@ -39,7 +42,7 @@ public class TableViewTest extends Application {
      */
     public void buildData() throws SQLException, IOException {
         Connection c;
-        data = FXCollections.observableArrayList();
+        ObservableList<ObservableList> data = FXCollections.observableArrayList();
         try {
             c = new getConnection().getConnection();
             String SQL = "USE mydb";
@@ -65,7 +68,11 @@ public class TableViewTest extends Application {
                 default:            order = "ID";
             }
 
-            SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad,  o.Orders, o.OrderSize, o.OrderNumber, o.NameOnGarment, o.PaidFor, o.PaymentMethod, i.Item from Orders o INNER JOIN Customers c ON o.CustomerID = c.ID INNER JOIN Items i ON i.idItems=o.Orders ORDER BY " + order +";";
+            SQL = "select o.ID, o.CustomerID, c.Name, c.Email_Address, c.Squad," +
+                    "  o.Orders, o.OrderSize, o.OrderNumber, o.NameOnGarment," +
+                    "  o.PaidFor, o.PaymentMethod, i.Item from Orders o INNER" +
+                    "  JOIN Customers c ON o.CustomerID = c.ID INNER JOIN " +
+                    "Items i ON i.idItems=o.Orders ORDER BY " + order +";";
 
 
             // ResultSet
@@ -78,15 +85,20 @@ public class TableViewTest extends Application {
 
             for (int i = 0; i < rs.getMetaData().getColumnCount(); i++) {
 
-                // We are using non property style for making dynamic table
+                // Adds the data from each column into a list
 
                 final int j = i;
 
-                TableColumn col = new TableColumn(rs.getMetaData().getColumnName(i + 1));
+                TableColumn col = new TableColumn(rs.getMetaData()
+                        .getColumnName (i + 1));
                 col.setCellValueFactory(
-                        new Callback<CellDataFeatures<ObservableList, String>, ObservableValue<String>>() {
-                            public ObservableValue<String> call(CellDataFeatures<ObservableList, String> param) {
-                                return new SimpleStringProperty(param.getValue().get(j).toString());
+                        new Callback<TableColumn
+                                .CellDataFeatures<ObservableList , String>,
+                                ObservableValue<String>>() {
+                            public ObservableValue<String> call(TableColumn
+                                                                         .CellDataFeatures<ObservableList, String> param) {
+                                return new SimpleStringProperty(param.
+                                        getValue().get(j).toString());
                             }
                         });
                 tableview.getColumns().addAll(col);
@@ -117,12 +129,11 @@ public class TableViewTest extends Application {
     }
 
     /**
-     *
+     * Makes the whole
      */
     @Override
     public void start(Stage stage) throws Exception {
         // TableView
-        tableview = new TableView();
         buildData();
         // Main Scene
         Scene scene = new Scene(tableview);

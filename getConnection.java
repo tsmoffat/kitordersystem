@@ -21,14 +21,17 @@ import java.sql.SQLException;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
+/**
+ * This class gets all the connection properties by opening an XML file (set
+ * as kitorder.xml) and then use the nodes in that to connect to the
+ * database itself
+ */
 public class getConnection {
 
     public String dbms;
     public String dbName;
     public String userName;
     public String password;
-    public String urlString;
-    private Properties prop;
     private String serverName;
     private int portNumber;
 
@@ -39,24 +42,31 @@ public class getConnection {
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public Connection getConnection() throws SQLException, IOException, SAXException, ParserConfigurationException {
+    public Connection getConnection() throws SQLException, IOException,
+            SAXException, ParserConfigurationException {
         Connection conn = null;
-        this.setProperties("/Users/tsmoffat/kitordersystem/kitordersystem/kitordersystem/kitorder.xml");
-        String JDBC_URL = "jdbc:" + dbms + "://" + serverName + ":" + "3306" + "/";
-        System.out.println("Connecting to: " + dbms + "://" + serverName + ":3306");
+        this.setProperties("/Users/tsmoffat/kitordersystem/kitordersystem/" +
+                "kitordersystem/kitorder.xml");
+        String JDBC_URL = "jdbc:" + dbms + "://" + serverName + ":" + "3306"
+                + "/";
+        System.out.println("Connecting to: " + dbms + "://" + serverName +
+                ":3306");
         conn = DriverManager.getConnection(JDBC_URL, userName, password);
         return conn;
     }
 
     /**
-     * @param fileName
+     * @param fileName - The file where the connection details can be found,
+     *                 it's easier to pass it through from elsewhere
      * @throws FileNotFoundException
      * @throws IOException
      * @throws InvalidPropertiesFormatException
      * @throws SAXException
      * @throws ParserConfigurationException
      */
-    public void setProperties(String fileName) throws FileNotFoundException, IOException, InvalidPropertiesFormatException, SAXException, ParserConfigurationException {
+    public void setProperties(String fileName) throws FileNotFoundException,
+            IOException, InvalidPropertiesFormatException, SAXException,
+            ParserConfigurationException {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(fileName);
@@ -66,15 +76,22 @@ public class getConnection {
         Element database = (Element) nList.item(0);
 
 
-        Element connection = (Element) database.getElementsByTagName("connection").item(0);
+        Element connection = (Element) database.getElementsByTagName
+                ("connection").item(0);
 
 
-        this.dbms = connection.getElementsByTagName("dbms").item(0).getTextContent();
-        this.dbName = connection.getElementsByTagName("database_name").item(0).getTextContent();
-        this.userName = connection.getElementsByTagName("user_name").item(0).getTextContent();
-        this.password = connection.getElementsByTagName("password").item(0).getTextContent();
-        this.serverName = connection.getElementsByTagName("server_name").item(0).getTextContent();
-        this.portNumber = Integer.parseInt(connection.getElementsByTagName("port_number").item(0).getTextContent());
+        this.dbms = connection.getElementsByTagName("dbms").item(0).
+                getTextContent();
+        this.dbName = connection.getElementsByTagName("database_name").item
+                (0).getTextContent();
+        this.userName = connection.getElementsByTagName("user_name").item(0).
+                getTextContent();
+        this.password = connection.getElementsByTagName("password").item(0).
+                getTextContent();
+        this.serverName = connection.getElementsByTagName("server_name").
+                item(0).getTextContent();
+        this.portNumber = Integer.parseInt(connection.getElementsByTagName
+                ("port_number").item(0).getTextContent());
     }
 
 }
